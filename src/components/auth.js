@@ -18,3 +18,4 @@ export default async function auth() {
 //how to use this
 //it will return username if auth works
 //it will return false if auth doesnt work
+//might have some issues with asynchronous execution
