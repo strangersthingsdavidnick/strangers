@@ -1,13 +1,10 @@
-import auth from "./auth.js"
+import { useState } from "react";
 
 export default function Login() {
 
-    async function alertAuth() {
-        let awoo = await auth()
-        document.getElementById("authresult").innerHTML = awoo
-    }
+    const [aa, setaa] = useState('LOL')
 
-    const login = async () => {
+    async function login() {
 
         try {
             const response = await fetch(`https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/users/login`, {
@@ -25,19 +22,32 @@ export default function Login() {
             const result = await response.json();
             console.log(result);
             localStorage.setItem("token", result.data.token);
+            setaa('aaaaa')
 
         } catch (err) {
             console.error(err);
+            alert('wrong username or password')
         }
+    }
+
+    async function signOut() {
+        localStorage.removeItem("token");
+        setaa('bbbbb')
     }
 
     return (
         <>
-            <input id='signupUsername' type="text" placeholder="username" />
-            <input id='signupPassword' type="text" placeholder="password" />
-            <p onClick={() => login()} className='makeTheseADifferentColorPlease'>login</p>
-            <p onClick={() => alertAuth(localStorage.getItem('token'))} className='makeTheseADifferentColorPlease'>click me to verify login</p>
-            <p id="authresult"></p>
+            {localStorage.getItem("token") == undefined ? (
+                <>
+                    <input id='signupUsername' type="text" placeholder="username" />
+                    <input id='signupPassword' type="text" placeholder="password" />
+                    <p onClick={() => login()}>log in</p>
+                </>
+            ) : (
+                <>
+                    <p onClick={signOut} >log out</p>
+                </>
+            )}
         </>
     )
 }
