@@ -5,23 +5,26 @@ export default function Register() {
     const [lol, setLol] = useState('no token')
 
     async function doSignup() {
-        if (localStorage.getItem("token") == null) {
+        if (localStorage.getItem("token") == null || localStorage.getItem("token") == undefined) {
             console.log('signing up')
             try {
-                const response = await fetch('https://fsa-jwt-practice.herokuapp.com/signup',
+                const response = await fetch('https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/users/register',
                     {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            username: `${(document.getElementById('signupUsername')).value}`,
-                            password: `${(document.getElementById('signupPassword')).value}`
+                            user: {
+                                username: `${(document.getElementById('signupUsername')).value}`,
+                                password: `${(document.getElementById('signupPassword')).value}`
+                            }
                         })
                     })
                 const result = await response.json();
-                setLol(result.token)
-                localStorage.setItem("token", result.token);
+                setLol(result.data.token)
+                console.log(result.data.token)
+                localStorage.setItem("token", result.data.token);
             } catch (err) {
                 console.error(err);
             }
@@ -30,6 +33,27 @@ export default function Register() {
             console.log(`you are already signed in`)
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     async function signOut() {
         if (lol != null) {
@@ -44,7 +68,7 @@ export default function Register() {
 
     return (
         <>
-            {localStorage.getItem("token") == null ? (
+            {localStorage.getItem("token") == null || localStorage.getItem("token") == undefined ? (
                 <>
                     <p>signup:</p>
                     <input id='signupUsername' type="text" placeholder="username" />
