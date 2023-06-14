@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import auth from "./auth";
 
-function PostsList (props) {
-    console.log(props.allPosts)
+function PostsList ({setAllPosts, BASE_URL, allPosts}) {
+   
+    useEffect(() => {
+      async function fetchPosts() {
+        try {
+          const response = await fetch(`${BASE_URL}/posts`);
+          const translatedData = await response.json();
+          setAllPosts(translatedData.data.posts);
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      fetchPosts();
+    }, []);
+
     return(
         <>
 
@@ -9,8 +24,8 @@ function PostsList (props) {
         <div>
         <h2>All Posts</h2>
 
-        {props.allPosts.length ? (
-          props.allPosts.map((singlePost) => {
+        {allPosts.length ? (
+          allPosts.map((singlePost) => {
             return (
               <div className="single-post-container" key={singlePost._id}>
                 <p id="username">Username: {singlePost.author.username}</p>
