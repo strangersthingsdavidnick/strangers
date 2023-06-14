@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import auth from "./auth";
+import CreatePost from "./CreatePost";
 
 function PostsList ({setAllPosts, BASE_URL, allPosts}) {
    
@@ -22,7 +23,13 @@ function PostsList ({setAllPosts, BASE_URL, allPosts}) {
 
 
         <div>
+
+          <div>
         <h2>All Posts</h2>
+
+        <Link to="/newpost" element={CreatePost}>Create Post</Link>       
+
+        </div>
 
         {allPosts.length ? (
           allPosts.map((singlePost) => {
