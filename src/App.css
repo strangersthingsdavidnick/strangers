@@ -40,3 +40,34 @@
 .read-the-docs {
   color: #888;
 }
+
+.container{
+  display: flex;
+  flex-direction: column;
+}
+
+.main-section{
+  display: flex;
+  margin-bottom: .5rem;
+}
+
+#navbar{
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.single-post-container{
+  border: 2px solid white;
+  margin: .5rem;
+}
+
+#username{
+  justify-content: flex-start;
+  text-align: center;
+  border: solid black 4px;
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  margin-left: 1rem;
+  width: 30%;
+}
