@@ -11,7 +11,7 @@ export default function Profile({ BASE_URL }) {
 
     const deletePost = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/posts/5e8d1bd48829fb0017d2233b`, {
+            const response = await fetch(`${BASE_URL}/posts/${document.getElementById('deleteid')}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,7 +34,8 @@ export default function Profile({ BASE_URL }) {
         <>
             <p>you are logged in as: </p>
             <p id="user"></p>
-            <button id='snapper' onClick={deletePost}>execute order 66</button>
+            <input type="text" id="deleteid" />
+            <button id='snapper' onClick={deletePost}>delete this post</button>
         </>
     )
 }
