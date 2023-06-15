@@ -1,5 +1,7 @@
+import { useNavigate } from "react-router";
 
 export default function Profile({ BASE_URL }) {
+    const navigate = useNavigate()
 
     async function auth() {
         try {
@@ -18,11 +20,21 @@ export default function Profile({ BASE_URL }) {
     }
     auth()
 
+    async function signOut() {
+        localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        navigate('/')
+    }
+
 
     return (
         <>
             <p>you are logged in as: </p>
             <p id="user"></p>
+
+            <>
+            <p onClick={signOut} >log out</p>
+            </>
         </>
     )
 }

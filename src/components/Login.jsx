@@ -4,10 +4,9 @@ import { useNavigate } from "react-router";
 export default function Login({ BASE_URL }) {
     const navigate = useNavigate();
 
-    const [aa, setaa] = useState('LOL')
+    const [aa, setaa] = useState('LOL');
 
     async function login() {
-
         try {
             const response = await fetch(`${BASE_URL}/users/login`, {
                 method: "POST",
@@ -16,40 +15,45 @@ export default function Login({ BASE_URL }) {
                 },
                 body: JSON.stringify({
                     user: {
-                        username: `${(document.getElementById('signupUsername')).value}`,
-                        password: `${(document.getElementById('signupPassword')).value}`
+                        username: document.getElementById('signupUsername').value,
+                        password: document.getElementById('signupPassword').value
                     }
                 })
             });
             const result = await response.json();
             console.log(result);
             localStorage.setItem("token", result.data.token);
-            setaa('aaaaa')
-            navigate('/')
+
+            const username = document.getElementById('signupUsername').value;
+            localStorage.setItem("username", username);
+
+            setaa('aaaaa');
+            navigate('/');
+
         } catch (err) {
             console.error(err);
-            alert('wrong username or password')
+            alert('Wrong username or password');
         }
     }
 
     async function signOut() {
         localStorage.removeItem("token");
-        setaa('bbbbb')
+        setaa('bbbbb');
     }
 
     return (
         <>
-            {localStorage.getItem("token") == undefined ? (
+            {localStorage.getItem("token") == null ? (
                 <>
                     <input id='signupUsername' type="text" placeholder="username" />
                     <input id='signupPassword' type="text" placeholder="password" />
-                    <p onClick={() => login()}>log in</p>
+                    <p onClick={login}>log in</p>
                 </>
             ) : (
                 <>
-                    <p onClick={signOut} >log out</p>
+                    <p onClick={signOut}>log out</p>
                 </>
             )}
         </>
-    )
+    );
 }
