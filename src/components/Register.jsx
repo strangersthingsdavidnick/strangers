@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Register() {
+export default function Register(BASE_URL) {
 
     const [aa, setaa] = useState('LOL')
 
@@ -8,7 +8,7 @@ export default function Register() {
 
         console.log('signing up')
         try {
-            const response = await fetch('https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/users/register',
+            const response = await fetch(`${BASE_URL}/users/register`,
                 {
                     method: "POST",
                     headers: {
