@@ -25,14 +25,11 @@ function CreatePost({ BASE_URL, allPosts, setAllPosts }) {
       console.log(result);
 
       setAllPosts([...allPosts, result]);
+      navigate('/')
       return result;
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const goBack = () => {
-    window.history.back();
   };
 
   return (
@@ -58,7 +55,6 @@ function CreatePost({ BASE_URL, allPosts, setAllPosts }) {
           <input id="newLocation" type="text" placeholder="Location" />
         </p>
 
-        <button onClick={goBack}>Go Back</button>
         <button onClick={makePost} id="newPostSubmit">
           submit
         </button>
