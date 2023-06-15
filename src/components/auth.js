@@ -1,22 +1,3 @@
-export default async function auth() {
-    try {
-        const response = await fetch(`https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/test/me`,
-            //i cant fix the baseurl without passing it constantly and thats annoying
-            {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
-            })
-        const result = await response.json();
-        if (result.success) { return result.data.user.username }
-        else { return false }
-
-    } catch (err) { console.error(err); }
+export default function auth() {
+    console.log('auth does nothing currently')
 }
-
-//how to use this
-//it will return username if auth works
-//it will return false if auth doesnt work
-//might have some issues with asynchronous execution
