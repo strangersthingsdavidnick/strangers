@@ -18,7 +18,6 @@ export default function SendMessage({ BASE_URL }) {
             });
             const result = await response.json();
             console.log(result);
-            console.log(document.getElementById("newMessage").value)
         } catch (err) {
             console.error(err);
         }
