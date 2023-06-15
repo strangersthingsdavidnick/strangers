@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import auth from "./auth";
-import CreatePost from "./CreatePost";
 
 function PostsList({ setAllPosts, BASE_URL, allPosts }) {
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     async function fetchPosts() {
@@ -18,65 +17,83 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
     fetchPosts();
   }, []);
 
-
-
-  const deletePost = async (thing) => {
+  const deletePost = async (postId) => {
     try {
-      const response = await fetch(`${BASE_URL}/posts/${thing}`, {
+      const response = await fetch(`${BASE_URL}/posts/${postId}`, {
         method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
       const result = await response.json();
       console.log(result);
+
+      // The list updates after delete is pressed
+      if (response.ok) {
+        setAllPosts(allPosts.filter((post) => post._id !== postId));
+      }
     } catch (err) {
       console.error(err);
     }
-  }
+  };
+
+  let filteredItems = allPosts.filter((singlePost) => {
+    let lowercasedTitle = singlePost.title ? singlePost.title.toLowerCase() : "";
+    let lowercasedQuery = searchQuery.toLowerCase();
+  
+    return lowercasedTitle.includes(lowercasedQuery);
+  });
+  
 
   return (
-    <>
-
-
+    <div>
       <div>
+        <h2>All Posts</h2>
 
-        <div>
-          <h2>All Posts</h2>
+        <p>Search Bar</p>
 
-          <Link to="/newpost" element={CreatePost}>Create Post</Link>
+        <form>
+          <label htmlFor="search-query">Search by Item: </label>
+          <input
+            name="search-query"
+            type="text"
+            placeholder="Item Name"
+            onChange={(event) => {
+              setSearchQuery(event.target.value);
+            }}
+          />
+        </form>
 
-        </div>
-
-        {allPosts.length ? (
-          allPosts.map((singlePost) => {
-            console.log(singlePost.author.username)
-            console.log(singlePost)
-            return (
-              <div className="single-post-container" key={singlePost._id}>
-                <p id="username">Username: {singlePost.author.username}</p>
-                <p id="item">Item: {singlePost.title}</p>
-                <p id="description">Description: {singlePost.description}</p>
-                <p id="price">Price: {singlePost.price}</p>
-                <p id="location">Location: {singlePost.location}</p>
-                <p id="id">id: {singlePost._id}</p>
-
-                <button onClick={() => deletePost(singlePost._id)}>Delete Post</button>
-
-              </div>
-            );
-          })
-        ) : (
-          <p>Loading ...</p>
-        )}
-
+        <Link to="/newpost">Create Post</Link>
       </div>
 
+      {filteredItems.length ? (
+        filteredItems.map((singlePost) => {
+          const authorUsername = singlePost.author
+            ? singlePost.author.username
+            : <p>Loading...</p>;
 
-    </>
-
-  )
+          return (
+            <div className="single-post-container" key={singlePost._id}>
+              <p id="username">Username: {authorUsername}</p>
+              <p id="item">Item: {singlePost.title}</p>
+              <p id="description">Description: {singlePost.description}</p>
+              <p id="price">Price: {singlePost.price}</p>
+              <p id="location">Location: {singlePost.location}</p>
+              <p id="id">id: {singlePost._id}</p>
+              
+              <button onClick={() => deletePost(singlePost._id)}>
+                Delete Post
+              </button>
+            </div>
+          );
+        })
+      ) : (
+        <p>Loading ...</p>
+      )}
+    </div>
+  );
 }
 
 export default PostsList;
