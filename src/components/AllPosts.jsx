@@ -33,6 +33,7 @@ function PostsList ({setAllPosts, BASE_URL, allPosts}) {
 
         {allPosts.length ? (
           allPosts.map((singlePost) => {
+            console.log(singlePost.author.username)
             return (
               <div className="single-post-container" key={singlePost._id}>
                 <p id="username">Username: {singlePost.author.username}</p>
@@ -40,6 +41,10 @@ function PostsList ({setAllPosts, BASE_URL, allPosts}) {
                 <p id="description">Description: {singlePost.description}</p>
                 <p id="price">Price: {singlePost.price}</p>
                 <p id="location">Location: {singlePost.location}</p>
+              
+                
+                  <button>Delete Post</button>
+                
               </div>
             );
           })
