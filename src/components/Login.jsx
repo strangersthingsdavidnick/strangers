@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Login(BASE_URL) {
+export default function Login({ BASE_URL }) {
 
     const [aa, setaa] = useState('LOL')
 
