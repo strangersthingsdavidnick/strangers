@@ -1,6 +1,7 @@
 export default async function auth() {
     try {
-        const response = await fetch('https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/test/me',
+        const response = await fetch(`https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/test/me`,
+            //i cant fix the baseurl without passing it constantly and thats annoying
             {
                 method: "GET",
                 headers: {

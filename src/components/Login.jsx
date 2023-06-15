@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-export default function Login() {
+export default function Login(BASE_URL) {
 
     const [aa, setaa] = useState('LOL')
 
     async function login() {
 
         try {
-            const response = await fetch(`https://strangers-things.herokuapp.com/api/2209-FTB-ET-WEB-FT/users/login`, {
+            const response = await fetch(`${BASE_URL}/users/login`, {
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
