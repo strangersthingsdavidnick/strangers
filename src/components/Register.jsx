@@ -5,7 +5,7 @@ export default function Register({ BASE_URL }) {
     const [aa, setaa] = useState('LOL')
 
     async function doSignup() {
-
+        const username = document.getElementById("signupUsername").value;
         console.log('signing up')
         try {
             const response = await fetch(`${BASE_URL}/users/register`,
@@ -25,6 +25,7 @@ export default function Register({ BASE_URL }) {
             console.log(result.data.token)
             setaa('aaaaa')
             localStorage.setItem("token", result.data.token);
+            localStorage.setItem("username", username);
         } catch (err) {
             console.error(err);
         }
