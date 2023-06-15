@@ -39,7 +39,7 @@ export default function SendMessage({ BASE_URL }) {
 
 
                 <button onClick={() => postMessage(document.getElementById("newMessageId").value, document.getElementById("newMessage").value)} id="newMessageSubmit">
-                    send
+                    Message
                 </button>
             </div>
         </>

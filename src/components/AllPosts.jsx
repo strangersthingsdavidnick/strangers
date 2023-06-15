@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
+import SendMessage from "./SendMessage";
 
 function PostsList({ setAllPosts, BASE_URL, allPosts }) {
   const [searchQuery, setSearchQuery] = useState("");
+  const currentUsername = localStorage.getItem("currentUsername");
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     async function fetchPosts() {
@@ -23,7 +26,7 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       const result = await response.json();
@@ -41,17 +44,14 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
   let filteredItems = allPosts.filter((singlePost) => {
     let lowercasedTitle = singlePost.title ? singlePost.title.toLowerCase() : "";
     let lowercasedQuery = searchQuery.toLowerCase();
-  
+
     return lowercasedTitle.includes(lowercasedQuery);
   });
-  
 
   return (
     <div>
       <div>
         <h2>All Posts</h2>
-
-        <p>Search Bar</p>
 
         <form>
           <label htmlFor="search-query">Search by Item: </label>
@@ -65,7 +65,7 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
           />
         </form>
 
-        <Link to="/newpost">Create Post</Link>
+        {token && <Link to="/newpost">Create Post</Link>}
       </div>
 
       {filteredItems.length ? (
@@ -73,6 +73,8 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
           const authorUsername = singlePost.author
             ? singlePost.author.username
             : <p>Loading...</p>;
+
+          const isCurrentUserPost = currentUsername === authorUsername;
 
           return (
             <div className="single-post-container" key={singlePost._id}>
@@ -82,10 +84,16 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
               <p id="price">Price: {singlePost.price}</p>
               <p id="location">Location: {singlePost.location}</p>
               <p id="id">id: {singlePost._id}</p>
-              
-              <button onClick={() => deletePost(singlePost._id)}>
-                Delete Post
-              </button>
+
+              {!isCurrentUserPost && token && (
+                <SendMessage BASE_URL={BASE_URL} />
+              )}
+
+              {isCurrentUserPost && token && (
+                <button onClick={() => deletePost(singlePost._id)}>
+                  Delete Post
+                </button>
+              )}
             </div>
           );
         })

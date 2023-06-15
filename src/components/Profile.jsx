@@ -1,4 +1,3 @@
-import SendMessage from "./SendMessage"
 
 export default function Profile({ BASE_URL }) {
 
@@ -24,7 +23,6 @@ export default function Profile({ BASE_URL }) {
         <>
             <p>you are logged in as: </p>
             <p id="user"></p>
-            <SendMessage BASE_URL={BASE_URL} />
         </>
     )
 }

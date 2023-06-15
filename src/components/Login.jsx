@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function Login({ BASE_URL }) {
+    const navigate = useNavigate();
 
     const [aa, setaa] = useState('LOL')
 
@@ -23,7 +25,7 @@ export default function Login({ BASE_URL }) {
             console.log(result);
             localStorage.setItem("token", result.data.token);
             setaa('aaaaa')
-
+            navigate('/')
         } catch (err) {
             console.error(err);
             alert('wrong username or password')
