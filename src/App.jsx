@@ -1,70 +1,38 @@
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Routes, Route, Link } from "react-router-dom";
-import Login from "./components/Login";
-import AllPosts from "./components/AllPosts";
-import Profile from "./components/Profile";
+import { Route, Routes } from "react-router-dom";
+import AllPosts from './components/AllPosts'
 import Register from "./components/Register";
+import NavBar from "./components/NavBar";
 import CreatePost from "./components/CreatePost";
-import { useState, useEffect } from "react";
+import Login from "./components/LogIn";
+import Profile from "./components/Profile";
 
-const BASE_URL =
-  "https://strangers-things.herokuapp.com/api/2304-FTB-ET-WEB-FT";
 
 function App() {
-  const [allPosts, setAllPosts] = useState([]);
-  const token = localStorage.getItem("token");
+ const [isLoggedIn, setIsLoggedIn] = useState(false)
 
-  return (
-    <>
-      <div className="container">
-        <div id="navbar">
-          {!token && (
-            <>
-              <Link to="/login">Login</Link>
-              <Link to="/register">Register</Link>
-            </>
-          )}
-          {token && (
-            <>
-              <Link to="/">Posts</Link>
-              <Link to="/profile">Profile</Link>
-            </>
-          )}
-        </div>
+ useEffect(()=>{
+  const token = localStorage.getItem('token')
+  if(token){
+    setIsLoggedIn(true)
+  }
+ },[])
 
-        <div className="main-section">
-          <Routes>
-            <Route path="/login" element={<Login BASE_URL={BASE_URL} />} />
-            <Route
-              path="/"
-              element={
-                <AllPosts
-                  allPosts={allPosts}
-                  setAllPosts={setAllPosts}
-                  BASE_URL={BASE_URL}
-                />
-              }
-            />
-            <Route
-              path="/register"
-              element={<Register BASE_URL={BASE_URL} />}
-            />
-            <Route path="/profile" element={<Profile BASE_URL={BASE_URL} />} />
-            <Route
-              path="/newpost"
-              element={
-                <CreatePost
-                  BASE_URL={BASE_URL}
-                  allPosts={allPosts}
-                  setAllPosts={setAllPosts}
-                />
-              }
-            />
-          </Routes>
-        </div>
-      </div>
-    </>
-  );
+  return(
+    <div>
+    <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
+
+    <Routes>
+      <Route path='/' element={<AllPosts setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn}/>}/>
+      <Route path='/register' element={<Register setIsLoggedIn={setIsLoggedIn}/>} />
+      <Route path='/new-post' element={<CreatePost setIsLoggedIn={setIsLoggedIn}/>}></Route>
+      <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn}/>}></Route>
+      <Route path='/profile' element={<Profile />}/>
+    </Routes>
+    </div>
+  )
+
 }
 
 export default App;

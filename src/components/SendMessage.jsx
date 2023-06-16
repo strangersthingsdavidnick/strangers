@@ -1,41 +1,38 @@
-export default function SendMessage({ BASE_URL, thingy }) {
+import { useState } from "react";
+import { sendMessage } from "./api-adapters"
 
-    const postMessage = async (postid, message) => {
+const MessageUser = () =>{
+    const [messageText, setMessageTest] = useState("")
+
+    const handleButton = async (event) =>{
+        event.preventDefault();
         try {
-            const response = await fetch(`${BASE_URL}/posts/${postid}/messages`, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({
-                    message: {
-                        content: `${message}`,
-                    }
-                })
-            });
-            const result = await response.json();
-            console.log(result);
-        } catch (err) {
-            console.error(err);
+            const result = await sendMessage();
+
+        } catch (error) {
+            console.log(error)
         }
     }
 
-
-    return (
+    return(
         <>
+        
+        <form onSubmit={handleButton}>
+            <label>
+                Message: 
+                <input
+                type="text"
+                value={messageText}
+                onChange={(event)=>{
+                    setMessageTest(event.target.value)
+                }}
+                ></input>
+            </label>
 
-            <div className="new-message-container">
-                <p>
-                    message
-                    <input id="newMessage" type="text" placeholder="Message" />
-                </p>
-
-
-                <button onClick={() => postMessage(thingy, document.getElementById("newMessage").value)} id="newMessageSubmit">
-                    Message
-                </button>
-            </div>
+            <button type="submit">Send</button>
+        </form>
         </>
     )
 }
+
+export default MessageUser;

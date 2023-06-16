@@ -1,87 +1,65 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchAllPosts, sendDeleteRequest } from "./api-adapters";
 import SendMessage from "./SendMessage";
 
-function PostsList({ setAllPosts, BASE_URL, allPosts }) {
-  const [searchQuery, setSearchQuery] = useState("");
-  const currentUsername = localStorage.getItem("currentUsername");
-  const token = localStorage.getItem("token");
+function PostsList() {
+  const [posts, setPosts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // Add searchQuery state variable
+  const username = localStorage.getItem('username');
 
   useEffect(() => {
-    async function fetchPosts() {
+    const fetchPosts = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/posts`);
-        const translatedData = await response.json();
-        setAllPosts(translatedData.data.posts);
+        const result = await fetchAllPosts();
+        setPosts(result);
       } catch (error) {
         console.log(error);
       }
-    }
+    };
+
     fetchPosts();
   }, []);
 
   const deletePost = async (postId) => {
     try {
-      const response = await fetch(`${BASE_URL}/posts/${postId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = await response.json();
-      console.log(result);
-
-      // The list updates after delete is pressed
-      if (response.ok) {
-        setAllPosts(allPosts.filter((post) => post._id !== postId));
-      }
-    } catch (err) {
-      console.error(err);
+      await sendDeleteRequest(postId);
+      const updatedPosts = await fetchAllPosts();
+      setPosts(updatedPosts);
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  let filteredItems = allPosts.filter((singlePost) => {
+  let filteredItems = posts.filter((singlePost) => {
     let lowercasedTitle = singlePost.title ? singlePost.title.toLowerCase() : "";
     let lowercasedQuery = searchQuery.toLowerCase();
 
     return lowercasedTitle.includes(lowercasedQuery);
   });
-
+  
   return (
-    <div>
-      <div>
-        <h2>All Posts</h2>
+    <>
+      <h2>All Posts</h2>
 
-        <form>
-          <label htmlFor="search-query">Search by Item: </label>
-          <input
-            name="search-query"
-            type="text"
-            placeholder="Item Name"
-            onChange={(event) => {
-              setSearchQuery(event.target.value);
-            }}
-          />
-        </form>
-
-        {token && <Link to="/newpost">Create Post</Link>}
-      </div>
+      <form>
+        <label htmlFor="search-query">Search by Item: </label>
+        <input
+          name="search-query"
+          type="text"
+          placeholder="Item Name"
+          onChange={(event) => {
+            setSearchQuery(event.target.value);
+          }}
+        />
+      </form>
 
       {filteredItems.length ? (
         filteredItems.map((singlePost) => {
-          const thingy = singlePost._id
-          const authorUsername = singlePost.author.username
+          const authorUsername = singlePost.author
             ? singlePost.author.username
             : <p>Loading...</p>;
 
-
-          let isCurrentUserPost
-
-          if (currentUsername == authorUsername) {
-            isCurrentUserPost = true
-          }
-          else { isCurrentUserPost = false }
+          const isCurrentUserPost = username === authorUsername;
 
           return (
             <div className="single-post-container" key={singlePost._id}>
@@ -92,16 +70,9 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
               <p id="location">Location: {singlePost.location}</p>
               <p id="id">id: {singlePost._id}</p>
 
+              {username && <SendMessage/>}
 
-
-
-              {
-                !isCurrentUserPost
-                  ? <SendMessage BASE_URL={BASE_URL} thingy={thingy} />
-                  : ''
-              }
-
-              {isCurrentUserPost && ( //the way this is formatted is so wierd. i have no idea why this works
+              {isCurrentUserPost && (
                 <button onClick={() => deletePost(singlePost._id)}>
                   Delete Post
                 </button>
@@ -110,9 +81,9 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
           );
         })
       ) : (
-        <p>Loading ...</p>
+        <p>Loading...</p>
       )}
-    </div>
+    </>
   );
 }
 
