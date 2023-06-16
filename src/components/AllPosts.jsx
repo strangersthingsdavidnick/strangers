@@ -4,7 +4,7 @@ import SendMessage from "./SendMessage";
 
 function PostsList() {
   const [posts, setPosts] = useState([]);
-  const [searchQuery, setSearchQuery] = useState(""); // Add searchQuery state variable
+  const [searchQuery, setSearchQuery] = useState("");
   const username = localStorage.getItem('username');
 
   useEffect(() => {
@@ -41,6 +41,7 @@ function PostsList() {
     <>
       <h2>All Posts</h2>
 
+      {/* SearchBar */}
       <form>
         <label htmlFor="search-query">Search by Item: </label>
         <input
@@ -53,6 +54,7 @@ function PostsList() {
         />
       </form>
 
+      {/* Checks array length. Maps over each item in FilteredItems */}
       {filteredItems.length ? (
         filteredItems.map((singlePost) => {
           const authorUsername = singlePost.author
@@ -70,8 +72,10 @@ function PostsList() {
               <p id="location">Location: {singlePost.location}</p>
               <p id="id">id: {singlePost._id}</p>
 
+              {/* Current User != to the Post Author, then show component */}
               {!isCurrentUserPost && <SendMessage id={singlePost._id} />}
 
+              {/* This checks if the above variable is truthy */}
               {isCurrentUserPost && (
                 <button onClick={() => deletePost(singlePost._id)}>
                   Delete Post

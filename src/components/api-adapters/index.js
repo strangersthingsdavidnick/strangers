@@ -102,8 +102,6 @@ export const makePost = async (title, description, price, location) => {
 };
 
 // This sends Messages
-// !!!!!!!!! Doesn't Work !!!!!!!
-// I think it's to do with the "postID" being undefined
 export const sendMessage = async (messageContent, postId) => {
   const TOKEN_STRING_HERE = localStorage.getItem("token");
 
@@ -124,6 +122,21 @@ export const sendMessage = async (messageContent, postId) => {
     const result = await response.json();
     console.log(result);
     return result.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Fetch All Post Messages function
+export const fetchAllPostsMessages = async () => {
+  try {
+    const response = await fetch(`${BASE_URL}/posts`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+    const result = await response.json();
+    return result.data.posts;
   } catch (error) {
     console.log(error);
   }

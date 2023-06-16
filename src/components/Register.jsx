@@ -8,6 +8,7 @@ const Register = (props) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate()
 
+// This runs when submit is clicked
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
@@ -16,6 +17,7 @@ const Register = (props) => {
       localStorage.setItem("token", result.token)
       setIsLoggedIn(true)
 
+      // navigates back to homepage
       navigate('/')
       
     } catch (error) {
@@ -27,6 +29,7 @@ const Register = (props) => {
     <div>
       <h2>Register</h2>
 
+      {/* Register form for username and password */}
       <form onSubmit={handleSubmit}>
         <label>
           Username:

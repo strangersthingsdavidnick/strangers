@@ -10,6 +10,7 @@ const CreatePost = () => {
   const [newPrice, setNewPrice] = useState("");
   const [newLocation, setNewLocation] = useState("");
 
+  // This runs when submit is clicked
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
