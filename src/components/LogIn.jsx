@@ -8,6 +8,7 @@ const Login = (props) => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  // This runs when submit is clicked
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -21,6 +22,7 @@ const Login = (props) => {
     } catch (error) {
         
     }
+    // navigates back to homepage
     navigate('/')
 };
   return (
@@ -41,7 +43,7 @@ const Login = (props) => {
         <label>
           Password:
           <input
-            type="text"
+            type="password"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
