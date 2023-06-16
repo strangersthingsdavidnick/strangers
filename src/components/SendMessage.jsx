@@ -1,9 +1,7 @@
-export default function SendMessage({ BASE_URL }) {
+export default function SendMessage({ BASE_URL, thingy }) {
 
     const postMessage = async (postid, message) => {
         try {
-            console.log(postid)
-            console.log(message)
             const response = await fetch(`${BASE_URL}/posts/${postid}/messages`, {
                 method: "POST",
                 headers: {
@@ -29,16 +27,12 @@ export default function SendMessage({ BASE_URL }) {
 
             <div className="new-message-container">
                 <p>
-                    post id
-                    <input id="newMessageId" type="text" placeholder="Id" />
-                </p>
-                <p>
                     message
                     <input id="newMessage" type="text" placeholder="Message" />
                 </p>
 
 
-                <button onClick={() => postMessage(document.getElementById("newMessageId").value, document.getElementById("newMessage").value)} id="newMessageSubmit">
+                <button onClick={() => postMessage(thingy, document.getElementById("newMessage").value)} id="newMessageSubmit">
                     Message
                 </button>
             </div>

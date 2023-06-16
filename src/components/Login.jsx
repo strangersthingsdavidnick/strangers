@@ -25,7 +25,7 @@ export default function Login({ BASE_URL }) {
             localStorage.setItem("token", result.data.token);
 
             const username = document.getElementById('signupUsername').value;
-            localStorage.setItem("username", username);
+            localStorage.setItem("currentUsername", username);
 
             setaa('aaaaa');
             navigate('/');
@@ -38,6 +38,7 @@ export default function Login({ BASE_URL }) {
 
     async function signOut() {
         localStorage.removeItem("token");
+        localStorage.removeItem("currentUsername");
         setaa('bbbbb');
     }
 

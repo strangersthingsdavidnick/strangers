@@ -70,11 +70,18 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
 
       {filteredItems.length ? (
         filteredItems.map((singlePost) => {
-          const authorUsername = singlePost.author
+          const thingy = singlePost._id
+          const authorUsername = singlePost.author.username
             ? singlePost.author.username
             : <p>Loading...</p>;
 
-          const isCurrentUserPost = currentUsername === authorUsername;
+
+          let isCurrentUserPost
+
+          if (currentUsername == authorUsername) {
+            isCurrentUserPost = true
+          }
+          else { isCurrentUserPost = false }
 
           return (
             <div className="single-post-container" key={singlePost._id}>
@@ -85,11 +92,16 @@ function PostsList({ setAllPosts, BASE_URL, allPosts }) {
               <p id="location">Location: {singlePost.location}</p>
               <p id="id">id: {singlePost._id}</p>
 
-              {!isCurrentUserPost && token && (
-                <SendMessage BASE_URL={BASE_URL} />
-              )}
 
-              {isCurrentUserPost && token && (
+
+
+              {
+                !isCurrentUserPost
+                  ? <SendMessage BASE_URL={BASE_URL} thingy={thingy} />
+                  : ''
+              }
+
+              {isCurrentUserPost && ( //the way this is formatted is so wierd. i have no idea why this works
                 <button onClick={() => deletePost(singlePost._id)}>
                   Delete Post
                 </button>
