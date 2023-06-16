@@ -23,6 +23,8 @@ const NavBar = ({ isLoggedIn, setIsLoggedIn }) => {
 
           <Link to="/profile">Profile</Link>
 
+          <Link to="/inbox">Inbox</Link>
+
           <button onClick={handleLogout}>Logout</button>
         </>
 
