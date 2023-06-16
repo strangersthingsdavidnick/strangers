@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function Register({ BASE_URL }) {
+    const navigate = useNavigate();
 
     const [aa, setaa] = useState('LOL')
 
@@ -25,7 +27,8 @@ export default function Register({ BASE_URL }) {
             console.log(result.data.token)
             setaa('aaaaa')
             localStorage.setItem("token", result.data.token);
-            localStorage.setItem("username", username);
+            localStorage.setItem("currentUsername", username);
+            navigate('/');
         } catch (err) {
             console.error(err);
         }
@@ -35,6 +38,7 @@ export default function Register({ BASE_URL }) {
 
     async function signOut() {
         localStorage.removeItem("token");
+        localStorage.removeItem("currentUsername");
         setaa('bbbbb')
     }
 
