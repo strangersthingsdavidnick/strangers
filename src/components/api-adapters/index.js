@@ -78,7 +78,7 @@ export const sendDeleteRequest = async (postId) => {
 };
 
 // Create Post
-export const makePost = async (title, description, price, location) =>{
+export const makePost = async (title, description, price, location) => {
   try {
     const TOKEN_STRING_HERE = localStorage.getItem("token");
     const response = await fetch(`${BASE_URL}/posts`, {
@@ -106,7 +106,7 @@ export const makePost = async (title, description, price, location) =>{
 // I think it's to do with the "postID" being undefined
 export const sendMessage = async (messageContent, postId) => {
   const TOKEN_STRING_HERE = localStorage.getItem("token");
-  
+
   try {
     const response = await fetch(`${BASE_URL}/posts/${postId}/messages`, {
       method: "POST",
