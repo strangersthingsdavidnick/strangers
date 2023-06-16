@@ -1,77 +1,96 @@
-import { React } from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { Routes, Route, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { makePost } from "./api-adapters";
+import { useNavigate } from "react-router-dom";
 
+const CreatePost = () => {
+    const navigate =useNavigate();
+  const [newPost, setNewPost] = useState([]);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDesc, setNewDesc] = useState("");
+  const [newPrice, setNewPrice] = useState("");
+  const [newLocation, setNewLocation] = useState("");
 
-function CreatePost({ BASE_URL, allPosts, setAllPosts }) {
-  const navigate = useNavigate();
-  const [qwer, setqwer] = useState(false);
-  const makePost = async () => {
-
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     try {
-      const response = await fetch(`${BASE_URL}/posts`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          post: {
-            title: `${document.getElementById("newTitle").value}`,
-            description: `${document.getElementById("newDesc").value}`,
-            price: `${document.getElementById("newPrice").value}`,
-            location: `${document.getElementById("newLocation").value}`,
-          },
-        }),
-      });
-      const result = await response.json();
-      console.log(result);
-
-      setAllPosts([...allPosts, result]);
-      console.log(qwer)
-      setqwer(true)
-      console.log(qwer)
+      const result = await makePost(newTitle, newDesc, newPrice, newLocation);
+      navigate('/')
+      setNewPost(result);
     } catch (error) {
       console.log(error);
     }
   };
 
+  useEffect(() => {
+    const submitPost = async () => {
+      try {
+        const result = await makePost(newTitle, newDesc, newPrice, newLocation);
+        setNewPost(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    submitPost();
+  }, []);
+
   return (
     <>
-      <div className="new-post-container">
-        <p>
-          Title:
-          <input id="newTitle" type="text" placeholder="Title" />
-        </p>
+      <p>New Post</p>
+      <div className="newPostForm">
+        <form onSubmit={handleSubmit}>
+          {/* Title */}
+          <label htmlFor="title">Title: </label>
+          <input
+            name="newTitle"
+            type="text"
+            placeholder="Title"
+            value={newTitle}
+            onChange={(event) => {
+              setNewTitle(event.target.value);
+            }}
+          />
 
-        <p>
-          Description:
-          <input id="newDesc" type="text" placeholder="Description" />
-        </p>
+          {/* Description */}
+          <label htmlFor="newPostDesc">Description: </label>
+          <input
+            name="newPostDesc"
+            type="text"
+            placeholder="Description"
+            value={newDesc}
+            onChange={(event) => {
+              setNewDesc(event.target.value);
+            }}
+          />
 
-        <p>
-          Price:
-          <input id="newPrice" type="text" placeholder="$0.00" />
-        </p>
+          {/* Price */}
+          <label htmlFor="newPrice">Price: </label>
+          <input
+            name="newPrice"
+            type="text"
+            placeholder="$0.00"
+            value={newPrice}
+            onChange={(event) => {
+              setNewPrice(event.target.value);
+            }}
+          />
 
-        <p>
-          Location
-          <input id="newLocation" type="text" placeholder="Location" />
-        </p>
+          {/* Location */}
+          <label htmlFor="newLocation">Location: </label>
+          <input
+            name="newLocation"
+            type="text"
+            placeholder="Location"
+            value={newLocation}
+            onChange={(event) => {
+              setNewLocation(event.target.value);
+            }}
+          />
 
-        {
-          !qwer
-            ? <button onClick={makePost} id="newPostSubmit">
-              submit
-            </button>
-            : <Link to="/">Posts</Link>
-        }
-
-
+          <button type="submit">Create Post</button>
+        </form>
       </div>
     </>
   );
-}
+};
 
 export default CreatePost;

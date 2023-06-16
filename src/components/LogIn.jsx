@@ -1,32 +1,31 @@
-import React, { useState } from "react";
-import { registerUser } from "./api-adapters";
-import { Navigate, useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { loginRequest } from './api-adapters';
+import { useNavigate } from 'react-router-dom';
 
-const Register = (props) => {
-  const setIsLoggedIn = props.setIsLoggedIn
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate()
+const Login = (props) => {
+  const setIsLoggedIn = props.setIsLoggedIn;
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
+    event.preventDefault();
     try {
-      const result = await registerUser(username, password)
+      const result = await loginRequest(username, password);
 
-      localStorage.setItem("token", result.token)
-      setIsLoggedIn(true)
-
-      navigate('/')
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("username", username);
+      
+      setIsLoggedIn(true);
       
     } catch (error) {
-      console.log(error)
+        
     }
-  };
-
+    navigate('/')
+};
   return (
-    <div>
-      <h2>Register</h2>
-
+    <>
+    
       <form onSubmit={handleSubmit}>
         <label>
           Username:
@@ -42,7 +41,7 @@ const Register = (props) => {
         <label>
           Password:
           <input
-            type="password"
+            type="text"
             value={password}
             onChange={(event) => {
               setPassword(event.target.value);
@@ -52,8 +51,8 @@ const Register = (props) => {
 
         <button type="submit">Submit</button>
       </form>
-    </div>
+    </>
   );
 };
 
-export default Register;
+export default Login;
