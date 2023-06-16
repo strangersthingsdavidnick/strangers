@@ -70,7 +70,7 @@ function PostsList() {
               <p id="location">Location: {singlePost.location}</p>
               <p id="id">id: {singlePost._id}</p>
 
-              <SendMessage id={singlePost._id} />
+              {!isCurrentUserPost && <SendMessage id={singlePost._id} />}
 
               {isCurrentUserPost && (
                 <button onClick={() => deletePost(singlePost._id)}>

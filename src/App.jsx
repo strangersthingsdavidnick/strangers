@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar";
 import CreatePost from "./components/CreatePost";
 import Login from "./components/LogIn";
 import Profile from "./components/Profile";
+import Inbox from "./components/Inbox";
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
       <Route path='/new-post' element={<CreatePost setIsLoggedIn={setIsLoggedIn}/>}></Route>
       <Route path='/login' element={<Login setIsLoggedIn={setIsLoggedIn}/>}></Route>
       <Route path='/profile' element={<Profile />}/>
+      <Route path='/inbox' element={<Inbox />}/>
     </Routes>
     </div>
   )

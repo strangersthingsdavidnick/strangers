@@ -1,22 +1,29 @@
 import { useState } from "react";
-import { sendMessage } from "./api-adapters"
+import { sendMessage } from "./api-adapters";
 
 const MessageUser = (aaa) => {
-    const [messageText, setMessageTest] = useState("")
-    const postId = aaa.id
+    const [messageText, setMessageText] = useState("");
+    const [submittedMessage, setSubmittedMessage] = useState("");
+    const postId = aaa.id;
 
     const handleButton = async (event) => {
         event.preventDefault();
         try {
             const result = await sendMessage(messageText, postId);
+            setSubmittedMessage(messageText);
+            setMessageText("");
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
-    }
+    };
+
+    // Clears submittedMessage
+    const handleDelete = () => {
+        setSubmittedMessage("");
+    };
 
     return (
         <>
-
             <form onSubmit={handleButton}>
                 <label>
                     Message:
@@ -24,15 +31,22 @@ const MessageUser = (aaa) => {
                         type="text"
                         value={messageText}
                         onChange={(event) => {
-                            setMessageTest(event.target.value)
+                            setMessageText(event.target.value);
                         }}
                     ></input>
                 </label>
 
                 <button type="submit">Send</button>
             </form>
+
+            {submittedMessage && (
+                <div>
+                    <p>Reply: {submittedMessage}</p>
+                    <button onClick={handleDelete}>Delete</button>
+                </div>
+            )}
         </>
-    )
-}
+    );
+};
 
 export default MessageUser;
