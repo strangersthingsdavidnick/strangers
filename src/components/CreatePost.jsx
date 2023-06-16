@@ -1,10 +1,14 @@
 import { React } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { Routes, Route, Link } from "react-router-dom";
+
 
 function CreatePost({ BASE_URL, allPosts, setAllPosts }) {
   const navigate = useNavigate();
+  const [qwer, setqwer] = useState(false);
   const makePost = async () => {
+
     try {
       const response = await fetch(`${BASE_URL}/posts`, {
         method: "POST",
@@ -25,8 +29,9 @@ function CreatePost({ BASE_URL, allPosts, setAllPosts }) {
       console.log(result);
 
       setAllPosts([...allPosts, result]);
-      navigate('/')
-      return result;
+      console.log(qwer)
+      setqwer(true)
+      console.log(qwer)
     } catch (error) {
       console.log(error);
     }
@@ -55,9 +60,15 @@ function CreatePost({ BASE_URL, allPosts, setAllPosts }) {
           <input id="newLocation" type="text" placeholder="Location" />
         </p>
 
-        <button onClick={makePost} id="newPostSubmit">
-          submit
-        </button>
+        {
+          !qwer
+            ? <button onClick={makePost} id="newPostSubmit">
+              submit
+            </button>
+            : <Link to="/">Posts</Link>
+        }
+
+
       </div>
     </>
   );
