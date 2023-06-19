@@ -27,10 +27,11 @@ const Login = (props) => {
 };
   return (
     <>
-    
-      <form onSubmit={handleSubmit}>
+        <h2>Login</h2>
+
+        <form id='loginRegisterForm' onSubmit={handleSubmit}>
         <label>
-          Username:
+          Username: 
           <input
             type="text"
             value={username}
@@ -41,7 +42,7 @@ const Login = (props) => {
         </label>
 
         <label>
-          Password:
+          Password: 
           <input
             type="password"
             value={password}
@@ -51,7 +52,7 @@ const Login = (props) => {
           ></input>
         </label>
 
-        <button type="submit">Submit</button>
+        <button id="submitButton" type="submit">Submit</button>
       </form>
     </>
   );

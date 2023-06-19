@@ -24,10 +24,11 @@ const MessageUser = (aaa) => {
 
     return (
         <>
-            <form onSubmit={handleButton}>
+            <form className="messageContainer" onSubmit={handleButton}>
                 <label>
                     Message:
                     <input
+                        id="messageBox"
                         type="text"
                         value={messageText}
                         onChange={(event) => {

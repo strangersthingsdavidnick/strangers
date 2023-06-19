@@ -30,7 +30,7 @@ const Register = (props) => {
       <h2>Register</h2>
 
       {/* Register form for username and password */}
-      <form onSubmit={handleSubmit}>
+      <form id='loginRegisterForm' onSubmit={handleSubmit}>
         <label>
           Username:
           <input

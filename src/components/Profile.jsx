@@ -3,9 +3,9 @@ import React from 'react';
 const Profile = () => {
   return (
     <>
-
+      <h2 className="pageName">Profile</h2>
       <div>
-        Welcome {localStorage.getItem("username")} !
+        Logged in as:  {localStorage.getItem("username")}
       </div>
 
     
