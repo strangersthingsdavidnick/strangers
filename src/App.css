@@ -75,6 +75,8 @@
 }
 
 #single-post-container{
+  display: flex;
+  flex-direction: column;
   border: 1px solid #FFC857;
   margin: 2rem;
   padding: 1rem;
