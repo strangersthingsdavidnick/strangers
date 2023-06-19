@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { fetchAllPosts, sendDeleteRequest } from "./api-adapters";
 import SendMessage from "./SendMessage";
+import { Link } from "react-router-dom";
+
 
 function PostsList() {
   const [posts, setPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const username = localStorage.getItem('username');
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -39,12 +42,15 @@ function PostsList() {
 
   return (
     <>
-      <h2>All Posts</h2>
+  
+      <h2 className="pageName">All Posts</h2>
 
-      {/* SearchBar */}
+      {/* SearchBar & Create Post */}
+      <div className="searchAndCreate">
+
       <form>
-        <label htmlFor="search-query">Search by Item: </label>
-        <input
+        <label style={{ fontWeight: 'bold' }} htmlFor="search-query">Search by Item: </label>
+        <input id="searchBox"
           name="search-query"
           type="text"
           placeholder="Item Name"
@@ -54,7 +60,15 @@ function PostsList() {
         />
       </form>
 
+      {token && 
+        (<Link id="createPostButton" to="/new-post">Create Post</Link>
+      )}
+
+      </div>
+
       {/* Checks array length. Maps over each item in FilteredItems */}
+      <div className="allPosts">
+
       {filteredItems.length ? (
         filteredItems.map((singlePost) => {
           const authorUsername = singlePost.author
@@ -64,16 +78,17 @@ function PostsList() {
           const isCurrentUserPost = username === authorUsername;
 
           return (
-            <div className="single-post-container" key={singlePost._id}>
+
+            <div id="single-post-container" key={singlePost._id}>
               <p id="username">Username: {authorUsername}</p>
-              <p id="item">Item: {singlePost.title}</p>
+              <p id="item" style={{ fontWeight: 'bold' }}>Item: {singlePost.title}</p>
               <p id="description">Description: {singlePost.description}</p>
               <p id="price">Price: {singlePost.price}</p>
               <p id="location">Location: {singlePost.location}</p>
               <p id="id">id: {singlePost._id}</p>
 
               {/* Current User != to the Post Author, then show component */}
-              {!isCurrentUserPost && <SendMessage id={singlePost._id} />}
+              {!isCurrentUserPost && username && <SendMessage id={singlePost._id} />}
 
               {/* This checks if the above variable is truthy */}
               {isCurrentUserPost && (
@@ -87,6 +102,8 @@ function PostsList() {
       ) : (
         <p>Loading...</p>
       )}
+
+      </div>
     </>
   );
 }

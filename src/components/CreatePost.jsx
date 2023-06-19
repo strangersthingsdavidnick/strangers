@@ -36,11 +36,11 @@ const CreatePost = () => {
 
   return (
     <>
-      <p>New Post</p>
-      <div className="newPostForm">
-        <form onSubmit={handleSubmit}>
+      <p className="pageName">New Post</p>
+      <div>
+        <form id="newPostForm" onSubmit={handleSubmit}>
           {/* Title */}
-          <label htmlFor="title">Title: </label>
+          <label htmlFor="title">Item: </label>
           <input
             name="newTitle"
             type="text"
@@ -87,7 +87,7 @@ const CreatePost = () => {
             }}
           />
 
-          <button type="submit">Create Post</button>
+          <button id="submitButton" type="submit">Create Post</button>
         </form>
       </div>
     </>

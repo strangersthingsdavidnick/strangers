@@ -29,6 +29,8 @@ const Inbox = (aaa) => {
 
   return (
     <>
+      <h2 className="pageName">Inbox</h2>
+
       {filteredMessages.length === 0 ? (
         <p>Inbox is empty</p>
       ) : (
