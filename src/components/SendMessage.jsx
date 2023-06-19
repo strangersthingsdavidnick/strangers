@@ -37,7 +37,7 @@ const MessageUser = (aaa) => {
                     ></input>
                 </label>
 
-                <button type="submit">Send</button>
+                <button id="messageSubmit" type="submit">Send</button>
             </form>
 
             {submittedMessage && (
