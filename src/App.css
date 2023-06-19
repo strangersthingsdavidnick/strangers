@@ -1,5 +1,5 @@
 #root {
-  max-width: 1280px;
+  max-width: 100vw;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -116,40 +116,4 @@
 #loginRegisterForm {
   display: flex;
   flex-direction: column;
-}
-
-/* Mobile */
-
-@media (max-width: 768px) {
-  #root {
-    padding: 1rem;
-  }
-
-  .searchAndCreate {
-    flex-direction: column;
-    align-items: center;
-    margin: 2rem 0;
-  }
-
-  .messageContainer{
-    align-items: center;
-  }
-
-  #messageSubmit {
-    height: 5vh;
-    margin-top: 9%;
-  }
-
-  #searchBox {
-    margin-top: 1rem;
-  }
-
-  #createPostButton {
-    margin-left: 0;
-    margin-top: 1rem;
-  }
-
-  #messageBox {
-    margin: 1rem 0;
-  }
 }
